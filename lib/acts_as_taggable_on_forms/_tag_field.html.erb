@@ -14,7 +14,7 @@
     <div id="available-<%= tag_name %>s">
       <label>Available <%= tag_name.capitalize %>s:</label>
       <div>
-      <% existing_tags.each do |c| %>
+      <% additional_tags.each do |c| %>
         <span><a class="add-tag" name="<%= c %>"><%= c %></a></span>
       <% end %>
       </div>
