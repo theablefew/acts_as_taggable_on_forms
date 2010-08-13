@@ -11,4 +11,4 @@ puts "Copying #{target} to #{dest}"
   File.copy(File.join(this, "lib", "acts_as_taggable_on_forms", target), dest)
 #end
 
-puts "Be sure to include #{target} in the your views when using acts_as_taggable_on_forms!"
+puts "Be sure to include #{target} in your views when using acts_as_taggable_on_forms!"
