@@ -1,0 +1,90 @@
+<%= form.hidden_field "#{tag_name}_list".to_sym %>  
+<ul class="form-list tags" id="<%= tag_name %>-tags">
+  <li>
+    <div id="<%= tag_name %>s">
+      <label><%= tag_name.capitalize %>s:</label>
+      <div>
+      <% existing_tags.each do |c| %>
+        <span class="tag"><a name="<%= c %>"><%= c %></a></span>
+      <% end %>
+      </div>
+    </div>
+  </li>
+  <li>
+    <div id="available-<%= tag_name %>s">
+      <label>Available <%= tag_name.capitalize %>s:</label>
+      <div>
+      <% existing_tags.each do |c| %>
+        <span><a class="add-tag" name="<%= c %>"><%= c %></a></span>
+      <% end %>
+      </div>
+    </div>
+  </li>
+  <li>
+    <div id="add-<%= tag_name%>-wrap">
+      <label>Add <%= tag_name.capitalize %>:</label> <input id="add-<%= tag_name %>" /> <a class="button" id="add-<%= tag_name %>-button">Add</a>
+    </div>
+  </li>
+</ul>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".tag a").live("click",function(){
+      var <%= tag_name %>_remove_cat = $(this).attr("name");
+      var <%= tag_name %>_category_list = $("#<%= field_name %>_<%= tag_name %>_list").val();
+      var <%= tag_name %>_category_array = <%= tag_name %>_category_list.split(", ");
+      var <%= tag_name %>_new_category_list = "";
+      $.each(<%= tag_name %>_category_array, function(internal_index, object_value){
+        if(object_value != <%= tag_name %>_remove_cat){
+          <%= tag_name %>_new_category_list = <%= tag_name %>_new_category_list+object_value+", ";
+        }
+      });
+      <%= tag_name %>_new_category_list = <%= tag_name %>_new_category_list.substring(0, <%= tag_name %>_new_category_list.length-2);
+      $("#<%= field_name %>_<%= tag_name %>_list").val(<%= tag_name %>_new_category_list);
+      $(this).parent().parent().hide();
+            refresh_buttons();
+    });
+
+    $("#available-<%= tag_name %>s span a").live("click",function(){
+      var add_category = $(this).attr("name");
+      var <%= tag_name %>_category_list = $("#<%= field_name %>_<%= tag_name %>_list");
+      if(<%= tag_name %>_category_list.val().length > 0){
+        <%= tag_name %>_category_list.val(<%= tag_name %>_category_list.val()+", "+add_category);
+      } else {
+        <%= tag_name %>_category_list.val(add_category);
+      }
+      $("#<%= tag_name %>s").append("<span class='tag'><a part='"+add_category+"'>"+add_category+"</a></span>");
+      refresh_buttons();  
+    });
+
+    $("#add-<%= tag_name %>-button").live("click",function(){
+      var add_category = $("#add-<%= tag_name %>").val();
+      var <%= tag_name %>_category_list = $("#<%= field_name %>_<%= tag_name %>_list");
+      if(<%= tag_name %>_category_list.val().length > 0){
+        <%= tag_name %>_category_list.val(<%= tag_name %>_category_list.val()+", "+add_category);
+      } else {
+        <%= tag_name %>_category_list.val(add_category);
+      }
+      var <%= tag_name %>_category_array = add_category.split(", ");
+      $.each(<%= tag_name %>_category_array, function(internal_index, object_value){
+        $("#<%= tag_name %>s").append("<span class='tag'><a part='"+object_value+"'>"+object_value+"</a></span></span> ");
+      });
+      $("#add-<%= tag_name %>").val("");
+      refresh_buttons();
+    });
+    function refresh_buttons(){
+      $('.tag a').button({
+        icons: {
+          primary: 'ui-icon-closethick'
+        }
+          }); 
+      $('.add-tag').button({
+        icons: {
+          primary: 'ui-icon-plusthick'
+        }      
+      });         
+      
+    }
+          refresh_buttons();
+  });
+</script>
